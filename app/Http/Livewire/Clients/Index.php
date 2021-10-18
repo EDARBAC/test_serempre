@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Clients;
 
+use App\Exports\ClientsExport;
+use App\Imports\ClientsImport;
 use App\Models\City;
 use App\Models\Client;
 use Livewire\Component;
@@ -34,6 +36,16 @@ class Index extends Component
 
         return view('livewire.clients.index', ['clients' => $clients]);
     }
+
+    public function export(){
+        if(!Client::count()) return;
+        return (new ClientsExport())->download('clients.xlsx',\Maatwebsite\Excel\Excel::XLSX);
+    }
+
+    public function import(){
+        return;
+        Excel::queueImport(new ClientsImport, request()->file('clients'));
+    } 
     
     public function delete(Client $client){
         $client->delete();

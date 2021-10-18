@@ -25,10 +25,16 @@
                                 <option value="25">25</option>
                             </select>
                         </div>
-                        <div class="grid justify-items-end">
-                            <a href="{{ route('clients.create') }}" wire:click="" class="hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                        <div class="grid grid-cols-2 justify-items-end">
+                            <a href="{{ route('clients.create') }}" class="hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
                                 <i class="fas fa-plus"></i>   Add
                             </a>
+                            <button type="button" wire:click="export" class="hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                <i class="fas fa-plus"></i>   Export Excel
+                            </button>
+                            {{-- <button type="button" wire:click="import" class="hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                <i class="fas fa-plus"></i>   Import Excel
+                            </button> --}}
                         </div>
                     </div>
 

@@ -1,0 +1,11 @@
+1. Aumentar el limite de memoria en el archivo php.ini "memory_limit = 10000M"
+2. Crear archivo .env (cp .env-example .env).
+3. Crear base de datos y definir parametros de conexion en el archivo .env
+4. Asignar el valor database al parametro QUEUE_CONNECTION del archivo .env
+5. Ejecutar composer install
+6: Ejecutar npm install
+7. Ejecutar npm run dev
+8. Ejecutar php artisan db:init
+9: Correr proyecto ejecutando php artisan serv
+10. Ejecutar php artisan queue:work
+11. Iniciar sesion con admin@admin.com   password
