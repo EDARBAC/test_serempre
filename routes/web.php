@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+})->middleware(['auth','verified'])->name('dashboard');
 
 
 Route::get('/clients',App\Http\Livewire\Clients\Index::class)->middleware('auth')->name('clients.index');
@@ -35,3 +35,11 @@ Route::get('/users/create',App\Http\Livewire\Users\Form::class)->middleware('aut
 Route::get('/users/{user}/edit',App\Http\Livewire\Users\Form::class)->middleware('auth')->name('users.edit');
 
 require __DIR__.'/auth.php';
+
+// Route::get('/create-password/{token}', [NewPasswordController::class, 'create'])
+//                 ->middleware('guest')
+//                 ->name('password.create');
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});

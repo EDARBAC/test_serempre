@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Users;
 
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Support\Facades\Hash;
 
 class Form extends Component
 {
@@ -13,8 +14,8 @@ class Form extends Component
     {
         $rules = [
             'user.email' => ['required','string','max:100','unique:users,email'],
-            'user.name' => ['nullable','string','max:255'],
-            'user.photo' => ['mimes:jpg,png','max:5000']
+            'user.name' => ['required','string','max:255'],
+            'user.photo' => ['nullable','mimes:jpg,png','max:5000']
         ];
 
         if(!empty($this->user->id)){
@@ -38,7 +39,7 @@ class Form extends Component
     public function save(){
 
         $this->validate();
-
+        if(empty($this->user->id)) $this->user->pass = Hash::make('password');
         $this->user->save();
 
         $this->redirectRoute('users.index');

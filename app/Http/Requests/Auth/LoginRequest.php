@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -43,6 +44,16 @@ class LoginRequest extends FormRequest
      */
     public function authenticate()
     {
+        if($user = User::where('email',$this->input('email'))->first()){
+            if(empty($user->password_modified_at)){
+                $user->createLinkNewPassword($this->input('email'));
+
+                throw ValidationException::withMessages([
+                    'password' => 'An email was sent to change the password',
+                ]);
+            }
+        }
+
         $this->ensureIsNotRateLimited();
 
         if (! Auth::attempt($this->only('email','password'), $this->boolean('remember'))) {

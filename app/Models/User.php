@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+use App\Notifications\PasswordCreateNotification;
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Support\Facades\Password;
 
-class User extends Authenticatable implements JWTSubject
+class User extends \TCG\Voyager\Models\User implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -44,6 +47,21 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
+
+    public function createLinkNewPassword($email){
+        Password::sendResetLink(['email' => $email]);
+    }
+
+    /**
      * Get the password for the user.
      *
      * @return string
@@ -53,6 +71,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->pass;
     }
 
+    /* Jwt */
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -62,8 +81,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+    /***************/
 
     public function isAdmin(){
-        
+        return $this->role_id == 1;
     }
 }
